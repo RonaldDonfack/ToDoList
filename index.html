@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="index.css">
+    <title>ToDoApp</title>
+    <script src="index.js"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="todoform">
+           <p> Please enter a todo </p>
+            <form>
+               <fieldset>
+                <label for="title">Title <input id="title" name="title" type="text" required /></label>
+                 <label for="description"> Description <textarea name="description" id="description" cols="30" rows="5" required></textarea></label>
+               </fieldset>
+               <button type="submit" class="submit">Submit</button>
+            </form>
+        </div>
+        <div class="todolist">
+            <p class="todos">Todos</p>
+            <div class="taskchecker ">
+
+                <div class="uniquetask ">
+                    <div class="task">
+                        <p class="tasktitle">Take Out The Trash</p>
+                        <div class="taskactions">
+                            <button class="nextstatus">Mark as completed</button>
+                           <div class="modificon"> <i class="las la-edit edit"></i></div>
+                            <div class="modificon"><i class="las la-trash trash"></i></div>
+                        </div>
+                    </div>
+                    <p class="taskdescript">Don't forget to take out the trash! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Veniam nobis, sequi quod expedita ea, quos magni veritatis quae repellendus quo consequatur ducimus odio! Rem dicta maiores perferendis, temporibus odit nobis!</p>
+                    <button class="taskstatus">Uncompleted</button>
+                </div>
+             
+            </div>
+            
+        </div>
+    </div>
+  
+</body>
+</html>
