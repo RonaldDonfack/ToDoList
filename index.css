@@ -101,6 +101,9 @@ input , textarea {
 .taskstatus-complete{
     color:#22C55E ;
     background-color: #BBF7D0;
+    width: 30%;
+    min-width: 100px;
+    height: 35
 }
 .task{
     display: flex;
@@ -128,5 +131,14 @@ input , textarea {
     }
     .todoform , .todolist{
         width: 100%;
+    }
+}
+@media (width < 450px){
+    .taskchecker{
+        padding: 0;
+    }
+    .task{
+        flex-wrap: wrap;
+        gap : 20px
     }
 }

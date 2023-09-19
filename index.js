@@ -32,6 +32,11 @@ document.addEventListener('DOMContentLoaded' , () => {
             button1.textContent = task.status ? 'Mark as uncompleted' : 'Mark as completed'
             
             button1.addEventListener('click', () => editStatus(task.id) )
+
+            const button2 = document.createElement('button')
+           
+            button2.textContent = task.status ? 'completed' : 'uncompleted'
+            button2.classList = task.status ? 'taskstatus-complete' : 'taskstatus'
         
             const description = document.createElement('p')
             description.textContent = task.description
@@ -53,15 +58,37 @@ document.addEventListener('DOMContentLoaded' , () => {
             taskdetails.appendChild(taskaction)
             container.appendChild(taskdetails)
             container.appendChild(description)
-            container.insertAdjacentHTML('beforeend' ,`<button class="taskstatus">Uncompleted</button>`)
+            container.appendChild(button2)
             taskChecker.appendChild(container)
         
         })
 
     }
+    
 
-    let allTask = []
+    let allTask = [
+        {
+            id : 09877899 , 
+            title : 'hello ' ,
+            description : 'world ' ,
+            status : true
+        },
+        {
+            id : 789098778 , 
+            title : 'how are you doing today' ,
+            description : 'fine n u ' ,
+            status : false
+        },
+        {
+            id : 78909877 , 
+            title : 'Watch the BlackList' ,
+            description : 'As of episode 16 in season 9' ,
+            status : false
+        }
 
+    ]
+
+    renderTask()
   
     // function to add a task 
 
@@ -76,7 +103,7 @@ document.addEventListener('DOMContentLoaded' , () => {
                 id : Date.now() , 
                 title : inputTitle ,
                 description : inputDescription ,
-                status : true
+                status : false
             }
             console.log(`here is the last task ` , newTask)
 
@@ -128,8 +155,10 @@ function editStatus(id) {
     const cTask = allTask.find(task => task.id === id)
     if(cTask.status){
         cTask.status = false
+       
     }else{
         cTask.status=true;
+       
     }
     renderTask()
  
