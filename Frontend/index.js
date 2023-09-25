@@ -126,30 +126,7 @@ document.addEventListener('DOMContentLoaded' , () => {
         return false
     }
     
-    // handling the status of the task 
-// let i = true
-//     // const  setColorStatus = ()=> {
-//         // document.addEventListener('click')
-//     // }
-//         // const currentTask = document.querySelector(`${id}`)
-//         const nextStatus = document.querySelector(`.nextstatus`)
-//         const taskStatus = document.querySelector(`.taskStatus`)
-   
-      
-//             // const cTask = allTask.find(task => task.id === id)
-//             if(i == true){
-//                 nextStatus.textContent = 'Mark as uncompleted'
-//                 taskStatus.textContent = 'Completed'
-//                 taskStatus.classList.add(".taskstatus-complete")
-//                 i = false
-//             }else{
-//                 nextStatus.textContent = "Mark as completed"
-//                 taskStatus.textContent = 'Uncompleted'
-//                 taskStatus.classList.remove(".taskstatus-complete")
-//                 i = true
-//         }
-        
-//     // }
+
  
 function editStatus(id) {
     const cTask = allTask.find(task => task.id === id)

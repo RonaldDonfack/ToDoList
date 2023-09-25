@@ -10,8 +10,8 @@ const server = http.createServer( (req, res) => {
     else if (req.url.match(/\/api\/todos\/([0-9]+)/) && req.method === "GET"){
        
         const idd = req.url.split('/')[3]
-      
         controller.getTaskById(req,res,idd)
+       
       
     }
     else if (req.url.match(/\/api\/todos\/([0-9]+)/) && req.method === "DELETE"){
