@@ -314,7 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
         var toBlur = document.querySelector('.main')
         toBlur.style.filter='blur(2px)'
         toDelete = id
+        const toDisplay = document.querySelector('.popup')
+        toDisplay.style.visibility ='visible';
+        toDisplay.style.opacity = 1;
     }
+    const actionOnBlur
     
 
 

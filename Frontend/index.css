@@ -1,44 +1,54 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'); */
 
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
-body{
-    font-family: "Roboto" , sans-serif;
+body {
+    font-family: "Roboto", sans-serif;
     font-weight: 400;
 }
 
-.main{
+.main {
     display: flex;
     padding: 50px;
     gap: 30px;
 }
+
 .mainBlur {
     filter: blur(2px);
     pointer-events: none;
     user-select: none;
 }
-label{
+
+label {
     display: block;
 }
-.todoform , .todolist{
+
+.todoform,
+.todolist {
     display: flex;
     flex-direction: column;
     width: 50%;
-    
+
 }
-.todoform p , .todos{
-    font-size: 30px ;   /* tamanho do texto */
+
+.todoform p,
+.todos {
+    font-size: 30px;
+    /* tamanho do texto */
     margin-bottom: 30px;
 }
-form , .taskchecker {
+
+form,
+.taskchecker {
     background-color: #f5f3f3a9;
     padding: 40px;
 }
-form button{
+
+form button {
     width: 100%;
     color: #FFFFFF;
     font-weight: 700;
@@ -48,109 +58,159 @@ form button{
     background-color: #007FFF;
     border-color: #007FFF;
 }
-h1{
+
+h1 {
     text-align: center;
 }
-fieldset{
+
+fieldset {
     margin-bottom: 30px;
     border: none;
 }
-input{
+
+input {
     border-color: #FFFFFF;
     height: 50px;
 }
-input , textarea {
+
+input,
+textarea {
 
     width: 100%;
     margin: 10px 0;
-    border-radius: 8px ;
+    border-radius: 8px;
     padding: 10px;
     /* border-color: #00FFFF; */
 }
 
-.inputRequired{
+.inputRequired {
     display: none;
-   margin-bottom: 6px;
+    margin-bottom: 6px;
     font-size: 15px;
     font-weight: lighter;
     color: #EF4444;
 }
+
 .tasktitle {
     font-size: 20px;
     font-weight: bolder;
 }
+
 .taskchecker {
     max-height: 900px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
-   
-    
+
+
 }
-.uniquetask{
+
+.uniquetask {
     display: flex;
     flex-direction: column;
     gap: 30px;
     padding: 20px;
     background-color: #FFFFFF;
 }
-.taskactions{
+
+.taskactions {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.taskchecker button{
-    border-radius: 8px ;
+.taskchecker button {
+    border-radius: 8px;
     padding: 5px;
     border-color: #FFFFFF;
 }
+
 .taskstatus {
-    color : #EF4444;
-    background-color :#FECACA ;
+    color: #EF4444;
+    background-color: #FECACA;
 
     width: 30%;
     min-width: 100px;
     height: 35px;
 }
-.taskstatus-complete{
-    color:#22C55E ;
+
+.taskstatus-complete {
+    color: #22C55E;
     background-color: #BBF7D0;
     width: 30%;
     min-width: 100px;
     height: 35
 }
-.task{
+
+.task {
     display: flex;
     justify-content: space-between;
 }
+
 .nextstatus {
     background-color: #c084fc;
 }
 
 
 .edit {
-  font-size: 30px;
+    font-size: 30px;
     color: #007FFF;
-    object-fit:cover;
+    object-fit: cover;
 }
+
 .trash {
     font-size: 30px;
     color: red;
 }
 
 .popup {
+    position: fixed;
     max-width: 500px;
     width: 60vw;
+    top: 40%;
+    right: 30%;
     display: flex;
-    justify-content: space-between;
-    background-color: aqua;
-    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+    justify-content: space-around;
+    background-color: #ededed;
+    border-radius: 15px;
+    padding: 1%;
+    visibility:hidden;
+    opacity: 0;
+    transition: 0.5s;
 }
+
 .popcontent {
-    width: 70%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
 }
+
+.buttons {
+    display: flex;
+    align-self: flex-end;
+    gap: 9px;
+
+}
+
+.cancelbtn,
+.deletebtn {
+    width: 70px;
+    height: 40px;
+    border-radius: 10px;
+    border-color: unset;
+    font-size: 17px;
+    font-weight: 400;
+    font-family: "Roboto", sans-serif;
+}
+
+.deletebtn {
+    background-color: rgb(242, 126, 126);
+    color: #FFFFFF;
+
+}
+
 .alert {
     width: 60px;
     height: 60px;
@@ -161,21 +221,25 @@ input , textarea {
     border-radius: 50%;
 }
 
-@media(width < 1024px){
-    .main{
+@media(width < 1024px) {
+    .main {
         display: flex;
         flex-direction: column;
     }
-    .todoform , .todolist{
+
+    .todoform,
+    .todolist {
         width: 100%;
     }
 }
-@media (width < 500px){
-    .taskchecker{
+
+@media (width < 500px) {
+    .taskchecker {
         padding: 0;
     }
-    .task{
+
+    .task {
         flex-wrap: wrap;
-        gap : 20px
+        gap: 20px
     }
 }
