@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const trashIcon = document.createElement('i')
             trashIcon.classList.add('las', 'la-trash', 'trash')
-            trashIcon.addEventListener('click', () => deleteTask(task.id))
+            trashIcon.addEventListener('click', () => toggle(task.id))
 
             // puting every tag in it parent tag
 
@@ -69,15 +69,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // fetching the entire database from the server
     const setTaskFromBackend = async () => {
-       await fetch(`http://localhost:5000/api/todos`)
-            .then((response) => response.json())
-            .then((tasklist) => {
-                allTask = tasklist
-                console.log('here are all tthe task in alltask from the backend ', allTask)
-                renderTask()
+        try {
+            const res = await fetch(`http://localhost:5000/api/todos`)
+                .then((response) => response.json())
+                .then((tasklist) => {
+                    allTask = tasklist
+                    console.log('here are all tthe task in alltask from the backend ', allTask)
+                    renderTask()
+                })
+            if (res.status === 200) {
+                createToast('success')
+            } else {
+                createToast('error')
             }
-            ).catch(err => console.log(err))
+        } catch (error) {
+            console.log(error)
+        }
     }
+
 
     // function to add a task to the server
     const addTask = async () => {
@@ -86,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputDescription = document.querySelector('#description').value
 
         if (inputTitle.trim() !== '') {
-         
+
             const newTask = {
 
                 title: inputTitle,
@@ -102,7 +111,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify(newTask),
                 })
-                console.log('response', res)
+                if (res.status === 201) {
+                    createToast('success')
+                }else{
+                    createToast('error')
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -127,11 +140,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const res = await fetch(`http://localhost:5000/api/todos/${id}`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type':  'text/plain'  // Have to find the right content type to send to the server
+                        'Content-Type': 'text/plain'  // Have to find the right content type to send to the server
                     },
                     body: JSON.stringify(newTask),
                 })
-                console.log('response', res)
+                if (res.status === 200) {
+                    createToast('success')
+                } else {
+                    createToast('error')
+                }
             } catch (error) {
                 console.log(error)
             }
@@ -142,65 +159,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.querySelector('form')
     let toUpdate
+    let toDelete 
     let editMode = false
 
 
     // get the values of the input fields
-  
-  
+    const inputTitle = document.querySelector('#title')
+    const inputDescription = document.querySelector('#description')
+
+    // Add an event listener for the "input" event
+    const inputListener = function (element, id1, id2) {
+
+        element.addEventListener('input', event => {
+            event.preventDefault()
+            const value = event.target.value;
+            console.log(`Input value changed to: ${value}`)
+            if (value === "") {
+                document.getElementById(`${id1}`).style.display = 'block';
+                document.getElementById(`${id2}`).style.borderColor = 'red';
+            } else {
+                document.getElementById(`${id1}`).style.display = 'none';
+                document.getElementById(`${id2}`).style.borderColor = '';
+
+            }
+
+        });
+    }
+
+    inputListener(inputTitle, 'required1', 'title')
+    inputListener(inputDescription, 'required2', 'description')
+
+
     // when to add the task  or update a task
     setTaskFromBackend()
-    form.onsubmit = () => {
+    form.onsubmit = (e) => {
+        e.preventDefault()
         const inputTitle = document.querySelector('#title').value
         const inputDescription = document.querySelector('#description').value
-    
-        if (inputTitle === "") {
-            document.getElementById('required1').style.display = 'block';
-            document.querySelector('#title').style.borderColor = 'red';
-        } 
-        if (inputDescription === "") {
-            document.getElementById('required2').style.display = 'block';
-            document.querySelector('#description').style.borderColor = 'red';
-        } 
+
+
         if (inputDescription === "" || inputTitle === "") {
-            this.disabled = true 
+            this.disabled = true
             console.log(this.disabled)
         } else {
             this.disabled = false
             if (!editMode) {
-               
-                console.log('eidtmode in else', editMode)
-    
                 addTask()
-                // setTaskFromBackend()
-    
+                setTaskFromBackend()
+                document.querySelector('#title').value = ""
+                document.querySelector('#description').value = ""
+                return false
+            }
+            else {
+                updateTask(toUpdate)
+                setTaskFromBackend()
                 document.querySelector('#title').value = ""
                 document.querySelector('#description').value = ""
 
                 return false
             }
-            else {
-             
-                console.log('eidtmode in if', editMode)
-                console.log('id in if ', toUpdate)
-                updateTask(toUpdate)
-                console.log('page is about to rerender')
-                setTaskFromBackend()
-                
-                // editMode = false
-                
-            }
         }
     }
-   
+
     function editStatus(id) {
         const cTask = allTask.find(task => task.id === id)
         if (cTask.status) {
             cTask.status = false
-
+            createToast('success')
         } else {
             cTask.status = true;
-
+            createToast('success')
         }
         renderTask()
 
@@ -215,6 +243,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const res = await fetch(`http://localhost:5000/api/todo/${id}`, {
                 method: 'DELETE',
             })
+            if (res.status === 200) {
+                createToast('success')
+            } else {
+                createToast('error')
+            }
         } catch (e) {
             console.log(e)
         }
@@ -230,7 +263,59 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#description').value = eTask.description
         toUpdate = id
         editMode = true
-        
     }
+
+
+
+    // toast
+
+    const notifications = document.querySelector(".notifications")
+
+
+    // Object containing details for different types of toasts
+    const toastDetails = {
+        timer: 5000,
+        success: {
+            icon: 'fa-circle-check',
+            text: 'Successful',
+        },
+        error: {
+            icon: 'fa-circle-xmark',
+            text: 'An err occured',
+        },
+
+    }
+
+    const removeToast = (toast) => {
+        toast.classList.add("hide");
+        if (toast.timeoutId) clearTimeout(toast.timeoutId); // Clearing the timeout for the toast
+        setTimeout(() => toast.remove(), 500); // Removing the toast after 500ms
+    }
+
+    const createToast = (id) => {
+        // Getting the icon and text for the toast based on the id passed
+        const { icon, text } = toastDetails[id];
+        const toast = document.createElement("li"); // Creating a new 'li' element for the toast
+        toast.className = `toast ${id}`; // Setting the classes for the toast
+        // Setting the inner HTML for the toast
+        toast.innerHTML = `<div class="column">
+                         <i class="fa-solid ${icon}"></i>
+                         <span>${text}</span>
+                      </div>
+                      <i class="fa-solid fa-xmark" onclick="removeToast(this.parentElement)"></i>`;
+        notifications.appendChild(toast); // Append the toast to the notification ul
+        // Setting a timeout to remove the toast after the specified duration
+        toast.timeoutId = setTimeout(() => removeToast(toast), toastDetails.timer);
+    }
+
+    // bluring the content to delete a task 
+
+    function toggle(id){
+        var toBlur = document.querySelector('.main')
+        toBlur.style.filter='blur(2px)'
+        toDelete = id
+    }
+    
+
 
 })

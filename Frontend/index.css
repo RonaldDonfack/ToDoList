@@ -16,6 +16,11 @@ body{
     padding: 50px;
     gap: 30px;
 }
+.mainBlur {
+    filter: blur(2px);
+    pointer-events: none;
+    user-select: none;
+}
 label{
     display: block;
 }
@@ -43,6 +48,9 @@ form button{
     background-color: #007FFF;
     border-color: #007FFF;
 }
+h1{
+    text-align: center;
+}
 fieldset{
     margin-bottom: 30px;
     border: none;
@@ -59,13 +67,11 @@ input , textarea {
     padding: 10px;
     /* border-color: #00FFFF; */
 }
-h1{
-    font-size: 10px;
-}
+
 .inputRequired{
     display: none;
    margin-bottom: 6px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: lighter;
     color: #EF4444;
 }
@@ -134,7 +140,28 @@ h1{
     color: red;
 }
 
-@media(width < 769px){
+.popup {
+    max-width: 500px;
+    width: 60vw;
+    display: flex;
+    justify-content: space-between;
+    background-color: aqua;
+    border-radius: 5px;
+}
+.popcontent {
+    width: 70%;
+}
+.alert {
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    background-color: #e1b8b8;
+    font-size: 50px;
+    color: #e61f1f;
+    border-radius: 50%;
+}
+
+@media(width < 1024px){
     .main{
         display: flex;
         flex-direction: column;
@@ -143,7 +170,7 @@ h1{
         width: 100%;
     }
 }
-@media (width < 450px){
+@media (width < 500px){
     .taskchecker{
         padding: 0;
     }
