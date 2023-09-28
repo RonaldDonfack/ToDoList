@@ -34,12 +34,11 @@ function update(id , task){
     })
 }
 function remove(id) {
+    console.log(",....id" + id)
     return new Promise ((resolve ,reject )=>{
         allTask = allTask.filter(t => t.id.toString() !== id.toString())
-
         writeDataToFile('./todos/task.json' , allTask )
-        resolve()
-
+        resolve(allTask)
     })
 }
 module.exports = {

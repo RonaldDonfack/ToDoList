@@ -3,11 +3,14 @@ const Tasks  = require('../model/taskmodel')
 
 const { getPostData } = require('../utlis')
 
+
+//  desc   update a task 
+// route   GET render it to the route api/todos
 async function  getAllTasks(req , res) {
     try {
         const tasks = await Tasks.findTasks()
 
-     
+        // console.log(req)
         res.writeHead(200, {'Content-Type' : 'application/json'})
         res.end(JSON.stringify(tasks))
 
@@ -15,6 +18,8 @@ async function  getAllTasks(req , res) {
         console.log(error)
     }
 }
+//  desc   update a task 
+// route   GET render it to the route api/todos/:id
 
 async function getTaskById (req , res , id){
     try {
@@ -35,14 +40,14 @@ async function getTaskById (req , res , id){
     }
 }
 
-//  desc   create a product 
-// route   POST render it to the route api/products
+//  desc   create a task 
+// route   POST render it to the route api/todos
 
 async function createTask(req , res) {
     try {
-   
+     
        const body = await getPostData(req)
-
+   
        const {title ,description, status} = JSON.parse(body)
 
        const task = {
@@ -50,17 +55,18 @@ async function createTask(req , res) {
            description,
            status
        }
-       const newTask = await Tasks.create(task)
+       console.log(task)
+       const newTask = await Tasks.create(JSON.parse(body))
        res.writeHead(201 , {'Content-Type' : 'application/json' })
        return res.end(JSON.stringify(newTask))
 
     } catch (error) {
-        console.log(error)
+        console.log("lelle " , error)
     }
 }
 
-//  desc   update a product 
-// route   PUT render it to the route api/products/:id
+//  desc   update a task 
+// route   PUT render it to the route api/todos/:id
 
 async function updateTask(req , res , id) {
     try {
@@ -68,12 +74,12 @@ async function updateTask(req , res , id) {
 
       if (!task) {
         res.writeHead(404, {'Content-Type' : 'application/json'})
-        res.end(JSON.stringify({message : "particular product not found"}))
+        res.end(JSON.stringify({message : "particular task not found"}))
 
     } else {
         
         const body = await getPostData(req)
- 
+        console.log(`here is the body in the contoller ${body} ${typeof(body)} ${typeof(JSON.stringify(body))} `)
         const {title ,description, status} = JSON.parse(body)
  
         const taskData = {
@@ -81,6 +87,8 @@ async function updateTask(req , res , id) {
             description: description || task.description,
             status : status || task.status
         }
+        
+        console.log("task data",taskData)
         const updTask = await Tasks.update(id,taskData)
 
         res.writeHead(200 , {'Content-Type' : 'application/json' })
@@ -91,6 +99,9 @@ async function updateTask(req , res , id) {
         console.log(error)
     }
 }
+
+//  desc   delete a task 
+// route   DELETE render it to the route api/todo/:id
 
 async function deleteTask(req ,res , id){
     try {
@@ -111,3 +122,4 @@ module.exports = {
     updateTask,
     deleteTask
 }
+
