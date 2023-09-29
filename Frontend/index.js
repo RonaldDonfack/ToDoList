@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const trashIcon = document.createElement('i')
             trashIcon.classList.add('las', 'la-trash', 'trash')
-            trashIcon.addEventListener('click', () => toggle(task.id))
+            trashIcon.addEventListener('click', () => deleteActions(task.id))
 
             // puting every tag in it parent tag
 
@@ -74,16 +74,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 .then((response) => response.json())
                 .then((tasklist) => {
                     allTask = tasklist
-                    console.log('here are all tthe task in alltask from the backend ', allTask)
                     renderTask()
                 })
-            if (res.status === 200) {
-                createToast('success')
-            } else {
-                createToast('error')
-            }
+
+
         } catch (error) {
             console.log(error)
+            createToast('error')
+
         }
     }
 
@@ -113,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 if (res.status === 201) {
                     createToast('success')
-                }else{
+                } else {
                     createToast('error')
                 }
             } catch (error) {
@@ -151,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 console.log(error)
+                createToast('error')
             }
         }
 
@@ -159,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const form = document.querySelector('form')
     let toUpdate
-    let toDelete 
+    let toDelete
     let editMode = false
 
 
@@ -173,7 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
         element.addEventListener('input', event => {
             event.preventDefault()
             const value = event.target.value;
-            console.log(`Input value changed to: ${value}`)
             if (value === "") {
                 document.getElementById(`${id1}`).style.display = 'block';
                 document.getElementById(`${id2}`).style.borderColor = 'red';
@@ -190,6 +188,8 @@ document.addEventListener('DOMContentLoaded', () => {
     inputListener(inputDescription, 'required2', 'description')
 
 
+
+
     // when to add the task  or update a task
     setTaskFromBackend()
     form.onsubmit = (e) => {
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (inputDescription === "" || inputTitle === "") {
             this.disabled = true
-            console.log(this.disabled)
+            createToast('warning')
         } else {
             this.disabled = false
             if (!editMode) {
@@ -232,7 +232,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         renderTask()
 
-        console.log(allTask)
 
     }
 
@@ -258,19 +257,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Editing the content of a task 
     function editTask(id) {
         const eTask = allTask.find(task => task.id === id)
-        console.log(`this is what is gonna be edited `, eTask)
         document.querySelector('#title').value = eTask.title
         document.querySelector('#description').value = eTask.description
         toUpdate = id
         editMode = true
     }
 
-
-
     // toast
-
     const notifications = document.querySelector(".notifications")
-
 
     // Object containing details for different types of toasts
     const toastDetails = {
@@ -283,6 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
             icon: 'fa-circle-xmark',
             text: 'An err occured',
         },
+        warning: {
+            icon: 'fa-triangle-exclamation',
+            text: 'incompleted form.',
+        }
 
     }
 
@@ -310,16 +308,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // bluring the content to delete a task 
 
-    function toggle(id){
-        var toBlur = document.querySelector('.main')
-        toBlur.style.filter='blur(2px)'
-        toDelete = id
-        const toDisplay = document.querySelector('.popup')
-        toDisplay.style.visibility ='visible';
-        toDisplay.style.opacity = 1;
-    }
-    const actionOnBlur
+    const popupContainer = document.querySelector('.popcontainer')
+    let deleteModal = false
+    popupContainer.style.display = 'none'
     
 
+
+    function deleteActions(id) {
+        deleteModal = true
+        toDelete = id
+        popupContainer.style.display = 'flex'
+    }
+   
+    let cancelbtn = document.getElementById('cancelbtn')
+    let deletebtn = document.getElementById('deletebtn')
+
+    cancelbtn.addEventListener('click' , () =>{
+        deleteModal = false
+        popupContainer.style.display = 'none'
+
+    })
+
+    deletebtn.addEventListener('click' , () =>{
+        deleteModal = false
+        deleteTask(toDelete)
+        popupContainer.style.display = 'none'
+
+    })
 
 })

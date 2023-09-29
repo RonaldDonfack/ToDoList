@@ -14,6 +14,7 @@ const server = http.createServer((req, res) => {
 
   if (req.url === "/api/todos" && req.method === "GET") {
     controller.getAllTasks(req, res);
+    console.log(res.statusCode)
   } else if (req.url.match(/\/api\/todos\/(\w+)/) && req.method === "GET") {
     const idd = req.url.split("/")[3];
     controller.getTaskById(req, res, idd);

@@ -7,14 +7,18 @@
 }
 
 body {
+
     font-family: "Roboto", sans-serif;
     font-weight: 400;
+
 }
 
 .main {
     display: flex;
+    width: 100%;
     padding: 50px;
     gap: 30px;
+    z-index: 0;
 }
 
 .mainBlur {
@@ -164,21 +168,45 @@ textarea {
     color: red;
 }
 
-.popup {
+.overview {
+    /* position: fixed; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+
+}
+
+.popcontainer {
     position: fixed;
+    width: 100%;
+    height: 100vh;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    /* top: 50vh; */
+    top :0;
+    z-index: 999;
+    background-color: #12010178;
+ 
+}
+
+.popup {
+
     max-width: 500px;
     width: 60vw;
-    top: 40%;
-    right: 30%;
+    overflow: auto;
     display: flex;
     font-family: "Roboto", sans-serif;
     justify-content: space-around;
     background-color: #ededed;
     border-radius: 15px;
-    padding: 1%;
-    visibility:hidden;
-    opacity: 0;
+    padding: 2%;
+    visibility: visible;
+    opacity: 1;
     transition: 0.5s;
+
 }
 
 .popcontent {
@@ -214,9 +242,12 @@ textarea {
 .alert {
     width: 60px;
     height: 60px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+   
     background-color: #e1b8b8;
-    font-size: 50px;
+    font-size: 40px;
     color: #e61f1f;
     border-radius: 50%;
 }

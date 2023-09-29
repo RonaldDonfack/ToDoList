@@ -25,13 +25,14 @@
   position: fixed;
   top: 30px;
   right: 20px;
+  z-index: 999;
 }
 .notifications :where(.toast, .column) {
   display: flex;
   align-items: center;
 }
 .notifications .toast {
-  width: 200px;
+  width: 250px;
   position: relative;
   overflow: hidden;
   list-style: none;
